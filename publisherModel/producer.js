@@ -10,8 +10,10 @@ class Producer {
   channel;
 
   async createChannel() {
+    // 1
     const connection = await amqp.connect(config.rabbitMQ.url);
-    console.log('~~~~~~~~~~~~~~~~~', connection)
+    // console.log('~~~~~~~~~~~~~~~~~', connection)
+    // 2
     this.channel = await connection.createChannel();
   }
 
@@ -21,15 +23,16 @@ class Producer {
     }
 
     const exchangeName = config.rabbitMQ.exchangeName;
-    console.log('~~~~~~~~~~~~~ channel', this.channel )
-
+    // console.log('~~~~~~~~~~~~~ channel', this.channel )
+  // 3
     await this.channel.assertExchange(exchangeName, "direct");
-
+  // log details which we want to send to end consumer
     const logDetails = {
-      logType: routingKey,
+      bindingKey: routingKey,
       message: message,
       dateTime: new Date(),
     };
+    // 4 sending it to exchange we have created
     await this.channel.publish(
       exchangeName,
       routingKey,
