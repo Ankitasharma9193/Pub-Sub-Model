@@ -10,14 +10,14 @@ const config = require('./congif');
 async function consumeMessages(){
 
     const connection = await amqp.connect(config.rabbitMQ.url);
-    channel = await connection.createChannel();
+    const channel = await connection.createChannel();
 
     const exchangeName = config.rabbitMQ.exchangeName
 
     await channel.assertExchange(exchangeName, "direct"); // exchange name and the type of exchange: direct
     
     // Create a Queue to receive logs from the Exchange
-    const queue = await this.channel.assertQueue("InfoQueue"); // Infoqueue: name of queue
+    const queue = await channel.assertQueue("InfoQueue"); // Infoqueue: name of queue
 
     // Binding queue with exchange
     // since this is direct type exchange, the 3rd argument is simple routing key

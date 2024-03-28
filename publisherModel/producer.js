@@ -40,7 +40,7 @@ class Producer {
     );
 
     console.log(
-      `The new "${message}" log is sent to exchange ${exchangeName}`
+      `The new :"${message}" and : ${routingKey} log is sent to exchange: ${exchangeName}`
     );
   }
 }
